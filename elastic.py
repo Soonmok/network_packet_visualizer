@@ -1,5 +1,6 @@
 from elasticsearch import Elasticsearch
 from elasticsearch_dsl import Search
+import matplotlib.pyplot as plt
 
 client = Elasticsearch()
 
@@ -11,5 +12,13 @@ total = s.count()
 print("all hits : {}".format(total))
 response = s.execute()
 
-for hit in s.scan():
-    print(hit.len)
+idxes = []
+hits = []
+
+for idx, hit in enumerate(s.scan()):
+    idxes.append(idx)
+    hits.append(hit.len)
+
+plt.scatter(idxes, hits)
+plt.yscale('log')
+plt.show()
