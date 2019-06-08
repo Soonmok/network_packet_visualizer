@@ -14,11 +14,11 @@ s = Search(using=client, index="logstash*") \
         .filter("exists", field="src_ip") \
         .filter("exists", field="ttl") \
         .filter("exists", field="len") \
-        .filter("range", **{"@timestamp":{'gte': 'now-29m', 'lt': 'now'}})
+        .filter("range", **{"@timestamp":{'gte': 'now-29m', 'lt': 'now'}}) \
         #.exclude("multi_match", query="8.8.8.8 192.168.56.12", fields=['src_ip', 'dst_ip']) \
 
 # configure pyplot windows
-fig = plt.figure()
+fig = plt.figure(figsize=(20, 16))
 ax1 = fig.add_subplot(2, 3, 1)
 ax2 = fig.add_subplot(2, 3, 2)
 ax3 = fig.add_subplot(2, 3, 3)
