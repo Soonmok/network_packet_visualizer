@@ -15,7 +15,6 @@ s = Search(using=client, index="logstash*") \
         .filter("exists", field="ttl") \
         .filter("exists", field="len") \
         .filter("range", **{"@timestamp":{'gte': 'now-29m', 'lt': 'now'}}) \
-        #.exclude("multi_match", query="8.8.8.8 192.168.56.12", fields=['src_ip', 'dst_ip']) \
 
 # configure pyplot windows
 fig = plt.figure(figsize=(20, 16))
@@ -29,7 +28,4 @@ ax6 = fig.add_subplot(2, 3, 6)
 
 # update pyplot window
 animation = FuncAnimation(fig, lambda x: update(s, ax1, ax2, ax3, ax4, ax5, ax6), interval=100)
-# while True:
-#     update(s, ax1, ax2, ax3, ax4, ax5, ax6)
-#     print("...")
 plt.show()
