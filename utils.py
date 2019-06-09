@@ -71,6 +71,9 @@ def get_time_set(time_list):
     traffic = [time_list.count(x) for x in time_set]
     return time_set, traffic
 
+def get_top_k_indexes(cnts, k):
+    return sorted(range(len(cnts)), key=lambda i: cnts[i], reverse=True)[:k]
+
 def draw_line(keys, ax):
     normal_time_list, normal_traffic = get_time_set(
             keys['another_ip']['time'])
@@ -86,10 +89,12 @@ def draw_bar(every_ips, ax, limit):
     ips = []
     cnts = []
     for key in every_ips.keys():
-        if every_ips[key] > limit:
-            ips.append(key)
-            cnts.append(every_ips[key])
-    ax.bar(ips, cnts, color='tab:red', align='center')
+        ips.append(key)
+        cnts.append(every_ips[key])
+    top_k_indexes = get_top_k_indexes(cnts, 5)
+    ips = np.array(ips)
+    cnts = np.array(cnts)
+    ax.bar(ips[top_k_indexes], cnts[top_k_indexes], color='tab:red', align='center')
 
 def draw_scatter(keys, ax, x_axis, y_axis):
     ax.scatter(
