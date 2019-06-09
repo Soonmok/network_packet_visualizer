@@ -14,7 +14,7 @@ s = Search(using=client, index="logstash*") \
         .filter("exists", field="src_ip") \
         .filter("exists", field="ttl") \
         .filter("exists", field="len") \
-        .filter("range", **{"@timestamp":{'gte': 'now-29m', 'lt': 'now'}}) \
+        .filter("range", **{"@timestamp":{'gte': 'now-1m', 'lt': 'now'}}) \
 
 # configure pyplot windows
 fig = plt.figure(figsize=(20, 16))

@@ -49,7 +49,7 @@ def get_data(s):
 
 
     for idx, hit in enumerate(s.scan()):
-        if hit.src_ip == '192.168.56.12':
+        if hit.src_ip == '192.168.56.12' and hit.dst_ip == '192.168.57.12':
             src_ips[hit.src_ip]['cnt'] += 1
             src_ips[hit.src_ip]['ttl'].append(float(hit.ttl))
             src_ips[hit.src_ip]['len'].append(float(hit.len))
@@ -85,7 +85,7 @@ def draw_line(keys, ax):
     ax.set_yticklabels([])
     ax.set_xticklabels([])
 
-def draw_bar(every_ips, ax, limit):
+def draw_bar(every_ips, ax, c):
     ips = []
     cnts = []
     for key in every_ips.keys():
@@ -94,7 +94,7 @@ def draw_bar(every_ips, ax, limit):
     top_k_indexes = get_top_k_indexes(cnts, 5)
     ips = np.array(ips)
     cnts = np.array(cnts)
-    ax.bar(ips[top_k_indexes], cnts[top_k_indexes], color='tab:red', align='center')
+    ax.bar(ips[top_k_indexes], cnts[top_k_indexes], color=c, align='center')
 
 def draw_scatter(keys, ax, x_axis, y_axis):
     ax.scatter(
@@ -110,9 +110,9 @@ def update(s, ax1, ax2, ax3, ax4, ax5, ax6):
     keys, every_ips, every_ports = get_data(s)
     draw_line(keys, ax1)
     ax1.set(xlabel='time', ylabel='traffic', title='Time-traffic graph')
-    draw_bar(every_ips, ax2, 10)
+    draw_bar(every_ips, ax2, 'tab:red')
     ax2.set(xlabel='src_ips', ylabel='counts', title='src_ips-counts bar chart')
-    draw_bar(every_ports, ax3, 10)
+    draw_bar(every_ports, ax3, 'tab:blue')
     draw_scatter(keys, ax4, x_axis='ttl', y_axis='dport')
     ax4.set(xlabel='ttl', ylabel='dst_port', title='ttl-dst_port scatter chart')
     ax4.set_xlim([0, 100])
