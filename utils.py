@@ -35,10 +35,10 @@ def get_data(s):
     every_ips = {}
 
     for hit in s.scan():
-        if hit.src_ip in every_ips:
-            every_ips[hit.src_ip] += 1
+        if ".".join(hit.src_ip.split('.')[:-2]) in every_ips:
+            every_ips[".".join(hit.src_ip.split('.')[:-2])] += 1
         else:
-            every_ips[hit.src_ip] = 0
+            every_ips[".".join(hit.src_ip.split('.')[:-2])] = 0
 
     every_ports = {}
     for hit in s.scan():
